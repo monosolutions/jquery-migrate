@@ -48,6 +48,14 @@ export function migrateWarn( msg ) {
 	if ( !jQuery.migrateDeduplicateWarnings || !warnedAbout[ msg ] ) {
 		warnedAbout[ msg ] = true;
 		jQuery.migrateWarnings.push( msg );
+		if ( jQuery.migrateWarningEvent ) {
+			jQuery( window ).trigger( {
+				type: "jquery-migrate-warning",
+				warningData: {
+					msg: msg
+				}
+			} );
+		}
 		if ( console && console.warn && !jQuery.migrateMute ) {
 			console.warn( "JQMIGRATE: " + msg );
 			if ( jQuery.migrateTrace && console.trace ) {
